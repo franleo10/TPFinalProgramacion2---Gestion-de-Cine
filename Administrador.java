@@ -2,6 +2,8 @@ import java.util.*;
 
 public class Administrador extends Usuario {
 
+    Tablero tablero;
+
     public Administrador(String nombre, String rol) {
         super(nombre, "ADMINISTRADOR");
     }
@@ -139,7 +141,8 @@ public void agregarUsuarioATareaEnColumna(List<Columna> columnas, int indiceColu
 
     if (tarea != null) {
         // Buscar el usuario por su ID en la tarea
-        Usuario usuario = tarea.buscarUsuarioPorId(idUsuario);  // Método para obtener el usuario por ID
+        Usuario usuario = new Usuario();    // Método para obtener el usuario por ID
+        usuario = tarea.buscarUsuarioPorId(idUsuario); 
 
         if (usuario != null) {
             // Si el usuario ya está asignado a la tarea, no lo agregamos de nuevo
@@ -156,7 +159,6 @@ public void agregarUsuarioATareaEnColumna(List<Columna> columnas, int indiceColu
         System.out.println("Tarea no encontrada.");
     }
 }
-
 
 
 }

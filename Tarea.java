@@ -18,6 +18,9 @@ public class Tarea {
         this.prioridad = prioridad;
         this.estado = estado;
         this.usuarios = new HashSet<>();
+
+        GestorTareas tareas = GestorTareas.getInstance();
+        tareas.agregarTarea(this);
     }
 
     public String getDescripcion() {
@@ -119,10 +122,32 @@ public class Tarea {
             }
         }
         return null;
-
-
     }
 
+    public String agregarUsuarioPorId(int idUsuario){
+
+        GestorUsuarios gestor = GestorUsuarios.getInstance();
+        Usuario usuario = gestor.buscarUsuarioPorId(idUsuario);
+
+        if(usuario == null){
+            throw new UsuarioNoEncontrado("El usuario no existe en el registro.");
+        }
+
+        usuarios.add(usuario);
+        return "Usuario: " + usuario.getNombre()+" agregado con exito a la tarea.";
+    }
+
+
+    @Override
+    public String toString() {
+        return "{" +
+            " id='" + getId() + "'" +
+            ", titulo='" + getTitulo() + "'" +
+            ", descripcion='" + getDescripcion() + "'" +
+            ", estado='" + getEstado() + "'" +
+            ", prioridad='" + getPrioridad() + "'" +
+            "}";
+    }
 
 }
 
