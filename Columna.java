@@ -6,12 +6,27 @@ import java.util.Set;
 
 public class Columna {
 
+    private static int contador = 1;
+    private int id;
     private String nombre;
     private Map<Estado, Set<Tarea>> tareasPorEstado;
 
     public Columna(String nombre) {
+        this.id=contador++;
         this.nombre = nombre;
         tareasPorEstado=new HashMap<>();
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Map<Estado, Set<Tarea>> getTareasPorEstado() {
+        return tareasPorEstado;
     }
     public void VerificarExistenciaTarea(Tarea tarea) throws TareaInexistente{ //verifica que no sea nula o ya este
 
@@ -52,6 +67,13 @@ public class Columna {
             System.out.println(e.getMessage());
         }
     }
+
+
+    ///Metodo para buscar en una columna, una tarea especifica que me va a servir o para eliminar un usuario de una tarea o la tarea misma.
+
+
+
+
 
 
 
