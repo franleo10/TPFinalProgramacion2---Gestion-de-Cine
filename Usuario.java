@@ -4,12 +4,20 @@ public class Usuario {
     private String nombre;
     private String rol;
     private static int contador = 1;
+    private boolean activo;
+
+    public Usuario(){
+    }
 
     public Usuario(String nombre, String rol) {
-       int con=0;
-       this.id= contador++;
+        int con=0;
+        this.id= contador++;
         this.nombre = nombre;
         this.rol = rol;
+        this.activo = true;
+         // Registrar el usuario automáticamente en el gestor
+         GestorUsuarios gestor = GestorUsuarios.getInstance();
+         gestor.agregarUsuario(this);  
     }
 
 
@@ -43,12 +51,6 @@ public class Usuario {
     }
 
     public void RealizarAccionTarea(Tarea tarea){   ///Para que la clase sea abstracta..
-
-
-
-
-
-
-
     }
+
 }

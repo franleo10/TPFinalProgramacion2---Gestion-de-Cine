@@ -20,23 +20,22 @@ public class Main {
         tarea1.agregarUsuario(usuario2);
         tarea2.agregarUsuario(usuario3);
 
-        // Crear columnas y agregar tareas a ellas
-        Columna columna1 = new Columna("Columna 1");
-        columna1.agregarTarea(tarea1);
-        columna1.agregarTarea(tarea2);
 
-        // Crear lista de columnas
-        List<Columna> columnas = new ArrayList<>();
-        columnas.add(columna1);
+        // Crear columnas y agregar tareas a ellas
+        Proyecto proyecto = new Proyecto("Proyecto 1");
+        proyecto.agregarTarea(1);
+        proyecto.agregarTarea(2);
+
+        Tablero tablero = new Tablero();
+        tablero.agregarProyecto(proyecto);
 
         // Crear administrador
-        Administrador admin = new Administrador("Admin", "ADMIN");
+        Administrador admin = new Administrador("Admin", "ADMIN", tablero);
 
         // Imprimir estado inicial
         System.out.println("Estado inicial de las tareas:");
         System.out.println("Usuarios en la tarea 1: " + tarea1.getUsuarios());
         System.out.println("Usuarios en la tarea 2: " + tarea2.getUsuarios());
-
 
 
 
@@ -50,7 +49,6 @@ public class Main {
         System.out.println("\nEstado después de eliminar al usuario de la tarea 1:");
         System.out.println("Usuarios en la tarea 1: " + tarea1.getUsuarios());
         System.out.println("Usuarios en la tarea 2: " + tarea2.getUsuarios());
-
 
         }
     }
