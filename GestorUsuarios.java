@@ -84,5 +84,23 @@ public class GestorUsuarios {
         }
     }
 
+
+/////////////////////////////////////////////////////////////////////////
+    public boolean modificarUsuario(int id, String nuevoNombre, String nuevoRol, boolean activo) {
+        Usuario usuario = buscarUsuarioPorId(id);
+        if (usuario == null) {
+            System.out.println("Usuario con ID " + id + " no encontrado.");
+            return false;
+        }
+        usuario.setNombre(nuevoNombre);
+        usuario.setRol(nuevoRol);
+        usuario.setActivo(activo);
+        System.out.println("Usuario modificado exitosamente.");
+        return true;
+    }
+
+
+
+
     
 }

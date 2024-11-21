@@ -1,6 +1,8 @@
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+
 import java.util.*;
+
 public class Main {
     public static void main(String[] args) {
 
@@ -29,26 +31,15 @@ public class Main {
         Tablero tablero = new Tablero();
         tablero.agregarProyecto(proyecto);
 
+
         // Crear administrador
-        Administrador admin = new Administrador("Admin", "ADMIN", tablero);
+        Administrador admin = new Administrador("Admin", "ADMIN");
 
-        // Imprimir estado inicial
-        System.out.println("Estado inicial de las tareas:");
-        System.out.println("Usuarios en la tarea 1: " + tarea1.getUsuarios());
-        System.out.println("Usuarios en la tarea 2: " + tarea2.getUsuarios());
+        admin.menu();
 
 
-
-        // Eliminar un usuario de la tarea 1 (por ejemplo, usuario1)
-        //Me elimina un usuario de una tarea que esta dentro de una columna
-         admin.eliminarUsuarioDeColumna(columnas, 0, 1, 1);
-        //me agrega un usuario NO ME ANDA
-        admin.agregarUsuarioATareaEnColumna(columnas, 0, 2, 4);
-
-        // Imprimir estado después de la eliminación
-        System.out.println("\nEstado después de eliminar al usuario de la tarea 1:");
-        System.out.println("Usuarios en la tarea 1: " + tarea1.getUsuarios());
-        System.out.println("Usuarios en la tarea 2: " + tarea2.getUsuarios());
-
-        }
     }
+
+
+
+}

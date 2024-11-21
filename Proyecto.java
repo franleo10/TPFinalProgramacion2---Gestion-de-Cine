@@ -1,8 +1,5 @@
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
-
 
 public class Proyecto {
 
@@ -16,7 +13,6 @@ public class Proyecto {
         this.nombre = nombre;
         listaDeTareas = new HashSet<>();
     }
-
 
     public int getId() {
         return this.id;
@@ -41,65 +37,57 @@ public class Proyecto {
     public void setListaDeTareas(Set<Tarea> listaDeTareas) {
         this.listaDeTareas = listaDeTareas;
     }
-    
 
     public Set<Tarea> getTareasPorEstado() {
         return listaDeTareas;
     }
 
-     // Método para verificar si existe una tarea por su ID
-     public Tarea verificarTareaPorId(int idTarea) {
-        Tarea tareaNueva;
+    public Tarea verificarTareaPorId(int idTarea) throws TareaInexistente {
         for (Tarea tarea : listaDeTareas) {
             if (tarea.getId() == idTarea) {
-                tareaNueva = tarea;
-                return tareaNueva; // Si la tarea con el id existe
+                return tarea; // Si la tarea con el id existe
             }
         }
-        return null; // Si no se encuentra la tarea
+        throw new TareaInexistente("Error: No se encontró una tarea con ID " + idTarea);
     }
 
-    // Método para agregar una tarea al proyecto
     public void agregarTarea(int idTarea) {
         try {
             // Primero verificamos si la tarea ya existe
-            Tarea tareaNueva = verificarTareaPorId(idTarea);
+            Tarea tareaNueva =  GestorTareas.getInstance().buscarTareaPorId(idTarea);
 
-            // Si no existe, la agregamos al proyecto
-            listaDeTareas.add(tareaNueva);
-            System.out.println("Tarea agregada con éxito al proyecto.");
+            // Verificamos si la tarea ya está en el proyecto
+            boolean tareaYaExiste = false;
+            for (Tarea tarea : listaDeTareas) {
+                if (tarea.getId() == tareaNueva.getId()) {
+                    tareaYaExiste = true;
+                    break;
+                }
+            }
+
+            if (tareaYaExiste) {
+                System.out.println("Error: La tarea ya está asignada a este proyecto.");
+            } else {
+                listaDeTareas.add(tareaNueva);
+                System.out.println("Tarea agregada con éxito al proyecto.");
+            }
         } catch (TareaInexistente e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void eliminarTarea(int idTarea) { ///Me elimina la tarea ya verificada con el metodo...
+    // Método para eliminar una tarea del proyecto
+    public void eliminarTarea(int idTarea) {
         try {
-            // Primero verificamos si la tarea existe
             Tarea tareaAeliminar = verificarTareaPorId(idTarea);
 
-            listaDeTareas.remove(tareaAeliminar);
-
-            System.out.println("La tarea fue eliminada con exito");
+            if (listaDeTareas.remove(tareaAeliminar)) {
+                System.out.println("Tarea eliminada con éxito.");
+            } else {
+                System.out.println("Error: La tarea no estaba asignada a este proyecto.");
+            }
         } catch (TareaInexistente e) {
             System.out.println(e.getMessage());
         }
     }
-
-
-    ///Metodo para buscar en una columna, una tarea especifica que me va a servir o para eliminar un usuario de una tarea o la tarea misma.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

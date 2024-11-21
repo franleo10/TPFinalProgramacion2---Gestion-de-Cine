@@ -76,5 +76,22 @@ public class GestorTareas {
         }
     }
 
+
+    //////////////////////////////////////////////////////////////////////////////////////////
+
+    public boolean modificarTarea(int id, String nuevoTitulo, String nuevaDescripcion, Prioridad nuevaPrioridad, Estado nuevoEstado) {
+        Tarea tarea = buscarTareaPorId(id);
+        if (tarea == null) {
+            System.out.println("Tarea con ID " + id + " no encontrada.");
+            return false;
+        }
+        tarea.setTitulo(nuevoTitulo);
+        tarea.setDescripcion(nuevaDescripcion);
+        tarea.setPrioridad(nuevaPrioridad);
+        tarea.setEstado(nuevoEstado);
+        System.out.println("Tarea modificada exitosamente.");
+        return true;
+    }
+
     
 }
