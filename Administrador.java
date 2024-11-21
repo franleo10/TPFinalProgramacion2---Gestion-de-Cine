@@ -1,3 +1,4 @@
+import java.nio.channels.Pipe.SourceChannel;
 import java.security.InvalidParameterException;
 import java.util.*;
 
@@ -38,6 +39,29 @@ public class Administrador extends Persona {
         } catch (UsuarioNoEncontrado e) {
             throw new RuntimeException(e);
         }
+
+    }
+
+    public void agregarProyecto(){
+
+        Tablero tablero = Tablero.getInstance();
+        GestorProyectos gestorProyectos = GestorProyectos.getInstance();
+
+        System.out.println("Ingrese el nombre del tablero.");
+        String nombre = scanner.nextLine();
+
+        while(nombre == null){
+         
+            System.out.println("Debe indicar un nombre para el proyecto.");
+            nombre = scanner.nextLine();
+
+            if(nombre != null){
+                Proyecto proyectoNuevo = new Proyecto(nombre);
+                tablero.agregarProyecto (proyectoNuevo);
+            }
+
+        }
+
 
     }
 
@@ -175,7 +199,8 @@ public class Administrador extends Persona {
     public void listarUsuarios() {
         GestorUsuarios.getInstance().listarUsuarios();
     }
-    public void agregarTarea() {
+    
+    public Tarea agregarTarea() {
         System.out.println("Ingrese el título de la tarea:");
         String titulo = scanner.nextLine();
         System.out.println("Ingrese la descripción de la tarea:");
@@ -241,7 +266,7 @@ public class Administrador extends Persona {
 
         // Crear la tarea
         Tarea tarea = new Tarea(titulo, descripcion, prioridad, estado);
-        System.out.println("Tarea agregada: " + tarea);
+        return tarea;
     }
 
     // Eliminar una tarea por ID
@@ -358,6 +383,17 @@ public class Administrador extends Persona {
             }
         } while (opcion != 9);
     }
+
+    public void agregarTareaAlProyecto(int idProyecto){
+        Tablero tablero = Tablero.getInstance();
+
+        Tarea tareaNueva = agregarTarea();
+
+        tablero.agregarTareaAProyecto(idProyecto, tareaNueva);
+
+    }
+
+
 }
 
 
