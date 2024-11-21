@@ -93,7 +93,6 @@ public class GestorUsuarios {
             return false;
         }
         usuario.setNombre(nuevoNombre);
-        usuario.setRol(nuevoRol);
         usuario.setActivo(activo);
         System.out.println("Usuario modificado exitosamente.");
         return true;

@@ -22,25 +22,6 @@ public class GestorProyectos {
         return instancia;
     }
 
-    // Agregar un proyecto al sistema
-    public boolean agregarProyecto(Proyecto proyecto) {
-        if (proyecto == null) {
-            System.out.println("Error: El proyecto no puede ser nulo.");
-            return false;
-        }
-
-        // Verificar si el proyecto ya está en el sistema por su ID
-        if (proyectos.containsKey(proyecto.getId())) {
-            System.out.println("El proyecto con ID " + proyecto.getId() + " ya está en el sistema.");
-            return false;
-        }
-
-        // Agregar proyecto al mapa
-        proyectos.put(proyecto.getId(), proyecto);
-        System.out.println("Proyecto con ID " + proyecto.getId() + " agregado al sistema.");
-        return true;
-    }
-
     // Eliminar un proyecto del sistema por su ID
     public boolean eliminarProyecto(int id) {
         if (!proyectos.containsKey(id)) {

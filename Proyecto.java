@@ -6,11 +6,13 @@ public class Proyecto {
     private static int contador = 1;
     private int id;
     private String nombre;
+    public boolean activo;
     private Set<Tarea> listaDeTareas;
 
     public Proyecto(String nombre) {
         this.id = contador++;
         this.nombre = nombre;
+        this.activo = true;
         listaDeTareas = new HashSet<>();
     }
 
@@ -76,6 +78,18 @@ public class Proyecto {
         }
     }
 
+    public void agregarTareaNuevaAlProyecto(Tarea tarea){
+
+        if(listaDeTareas.contains(tarea)){
+            System.out.println("La tarea ya existe en el proyecto");
+        }
+        else{
+            listaDeTareas.add(tarea);
+            System.out.println("Tarea añadida con exito.");
+        }
+
+    }
+
     // Método para eliminar una tarea del proyecto
     public void eliminarTarea(int idTarea) {
         try {
@@ -90,4 +104,25 @@ public class Proyecto {
             System.out.println(e.getMessage());
         }
     }
+
+    public String mostrarTareas(){
+        StringBuilder sb = new StringBuilder();
+        for(Tarea tarea: listaDeTareas){
+            sb.append(tarea).append("\n");
+        }
+
+        return sb.toString();
+    }
+
+
+    @Override
+    public String toString() {
+        return "{" +
+            " id='" + getId() + "'" +
+            ", nombre='" + getNombre() + "'" +
+            ", listaDeTareas='" + listaDeTareas + "'" +
+            "}";
+    }
+
+
 }

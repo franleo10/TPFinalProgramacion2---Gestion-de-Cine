@@ -1,4 +1,5 @@
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Tarea {
@@ -136,7 +137,19 @@ public class Tarea {
         usuarios.add(usuario);
         return "Usuario: " + usuario.getNombre()+" agregado con exito a la tarea.";
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true; // Compara referencias
+        if (obj == null || getClass() != obj.getClass()) return false; // Si son de diferentes clases o el objeto es null
+        Tarea tarea = (Tarea) obj; // Convierte el objeto a tipo Tarea
+        return id == tarea.id; // Compara el id
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id); // Genera un hash usando el id
+    }
 
     @Override
     public String toString() {

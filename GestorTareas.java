@@ -77,6 +77,9 @@ public class GestorTareas {
     }
 
 
+
+
+
     //////////////////////////////////////////////////////////////////////////////////////////
 
     public boolean modificarTarea(int id, String nuevoTitulo, String nuevaDescripcion, Prioridad nuevaPrioridad, Estado nuevoEstado) {
@@ -94,4 +97,16 @@ public class GestorTareas {
     }
 
     
+    public void mostrarTodosLosElementos() {
+        if (tareas.isEmpty()) {
+            System.out.println("No hay tareas registradas en el sistema.");
+            return;
+        }
+    
+        System.out.println("Elementos en el mapa (ID -> Tarea):");
+        for (Map.Entry<Integer, Tarea> entry : tareas.entrySet()) {
+            System.out.println("ID: " + entry.getKey() + " -> " + entry.getValue());
+        }
+    }
+
 }
