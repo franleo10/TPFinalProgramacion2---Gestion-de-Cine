@@ -5,12 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1941d811-c9e6-41b3-8b77-08713295293d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GestorProyectos.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Persona.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Administrador.java" beforeDir="false" afterPath="$PROJECT_DIR$/Administrador.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Columna.java" beforeDir="false" afterPath="$PROJECT_DIR$/Columna.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GestorTareas.java" beforeDir="false" afterPath="$PROJECT_DIR$/GestorTareas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GestorUsuarios.java" beforeDir="false" afterPath="$PROJECT_DIR$/GestorUsuarios.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea.java" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyecto.java" beforeDir="false" afterPath="$PROJECT_DIR$/Proyecto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Usuario.java" beforeDir="false" afterPath="$PROJECT_DIR$/Usuario.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -32,6 +34,9 @@
   &quot;associatedIndex&quot;: 8
 }</component>
   <component name="ProjectId" id="2p1xTaq2ANVTesj2oPdiDiOUAwl" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -40,9 +45,9 @@
   "keyToString": {
     "Application.Main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "gian__b",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Usuario/Desktop/TP/TPFinalProgramacion2---Gestion-de-Tareas",
+    "last_opened_file_path": "C:/Users/Usuario/Desktop/tp/TPFinalProgramacion2---Gestion-de-Tareas",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.0"
