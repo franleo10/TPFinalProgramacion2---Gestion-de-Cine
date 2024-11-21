@@ -68,52 +68,7 @@ public class Administrador extends Persona {
 
 
 
-/*
-    public void eliminarUsuarioDeColumna(List<Columna> columnas, int indiceColumna, int idTarea, int idUsuario) {
-        // Obtener la columna
-        Columna columna = columnas.get(indiceColumna);
 
-        // Buscar la tarea en la columna por su ID (en el estado correspondiente)
-        Tarea tarea = null;
-        for (Set<Tarea> tareasSet : columna.getTareasPorEstado().values()) {
-            for (Tarea t : tareasSet) {
-                if (t.getId() == idTarea) {
-                    tarea = t;
-                    break;
-                }
-            }
-            if (tarea != null) {
-                break;
-            }
-        }
-
-        if (tarea != null) {
-            // Buscar el usuario por su ID en la tarea
-            Usuario usuario = null;
-            for (Usuario u : tarea.getUsuarios()) {
-                if (u.getId() == idUsuario) {
-                    usuario = u;
-                    break;
-                }
-            }
-
-            if (usuario != null) {
-                try {
-                    // Llamar a eliminar el usuario de la tarea
-                    tarea.EliminarUsuarioTarea(usuario);
-                    System.out.println("Usuario eliminado de la tarea.");
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
-            } else {
-                System.out.println("Usuario no encontrado en la tarea.");
-            }
-        } else {
-            System.out.println("Tarea no encontrada.");
-        }
-    }
-
-*/
 
     public void modificarUsuario() {
         System.out.println("Ingrese el ID del usuario a modificar:");
@@ -199,6 +154,8 @@ public class Administrador extends Persona {
     public void listarUsuarios() {
         GestorUsuarios.getInstance().listarUsuarios();
     }
+
+
     
     public Tarea agregarTarea() {
         System.out.println("Ingrese el título de la tarea:");
@@ -351,11 +308,148 @@ public class Administrador extends Persona {
             System.out.println("Error: " + e.getMessage());
         }
     }
-    // Menú para interactuar con el administrador
-    public void menu() {
+
+
+
+
+
+    public String crearYAgregarTareaAProyecto(int idProyecto) {
+        // Obtener la instancia del tablero
+        Tablero tablero = Tablero.getInstance();
+GestorProyectos gestorProyectos=GestorProyectos.getInstance();
+        // Buscar el proyecto por ID en el tablero
+        Proyecto proyecto = gestorProyectos.buscarProyectoPorId(idProyecto);
+        System.out.println("lllll");
+
+        if (proyecto == null) {
+            return "Error: No se encontró el proyecto con ID " + idProyecto;
+        }
+
+        // Crear la nueva tarea utilizando el método definido
+        Tarea nuevaTarea = agregarTarea();
+
+        // Agregar la tarea al proyecto
+        proyecto.agregarTareaNuevaAlProyecto(nuevaTarea);
+
+        return "Tarea agregada con éxito al proyecto con ID " + idProyecto + ".";
+    }
+
+    ///////LOS NUEVOS METODOS DE MANEJAR LOS PROYECTOS EN LA CLASE ADMIN
+
+    // Agregar un nuevo proyecto
+    public void agregarProyecto2() {
+        Tablero tablero = Tablero.getInstance();
+
+        System.out.println("Ingrese el nombre del proyecto:");
+        String nombre = scanner.nextLine();
+
+        Proyecto nuevoProyecto = new Proyecto(nombre);
+        tablero.agregarProyecto(nuevoProyecto);
+    }
+
+    // Eliminar un proyecto
+    public void eliminarProyecto() {
+        System.out.println("Ingrese el ID del proyecto a eliminar:");
+        int idProyecto = scanner.nextInt();
+        scanner.nextLine(); // Limpiar buffer
+
+        Tablero tablero = Tablero.getInstance();
+        tablero.eliminarProyecto(idProyecto, this);  // Se pasa la instancia de Administrador
+    }
+
+    // Listar todos los proyectos
+    public void listarProyectos() {
+        Tablero tablero = Tablero.getInstance();
+        tablero.listarProyectos();
+    }
+
+    // Modificar un proyecto (si es necesario)
+    public void modificarProyecto() {
+        System.out.println("Ingrese el ID del proyecto a modificar:");
+        int idProyecto = scanner.nextInt();
+        scanner.nextLine(); // Limpiar buffer
+
+        Tablero tablero = Tablero.getInstance();
+        Proyecto proyecto = tablero.buscarProyectoPorId(idProyecto);
+
+        if (proyecto != null) {
+            System.out.println("Ingrese el nuevo nombre del proyecto:");
+            String nuevoNombre = scanner.nextLine();
+            proyecto.setNombre(nuevoNombre);
+            System.out.println("Proyecto modificado con éxito.");
+        } else {
+            System.out.println("No se encontró el proyecto con el ID especificado.");
+        }
+    }
+
+    public void menuposta() {
         int opcion;
         do {
             System.out.println("\n*** Menú Administrador ***");
+            System.out.println("1. Menú de Proyectos");
+            System.out.println("2. Menú de Usuarios y Tareas");
+            System.out.println("3. Salir");
+            System.out.print("Seleccione una opción: ");
+            opcion = scanner.nextInt();
+            scanner.nextLine(); // Limpiar buffer
+
+            switch (opcion) {
+                case 1:
+                    menuProyecto2(); // Menú de proyectos
+                    break;
+                case 2:
+                    menuUsuariosYTareas(); // Menú de usuarios y tareas
+                    break;
+                case 3:
+                    System.out.println("Saliendo del sistema...");
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+        } while (opcion != 3);
+    }
+
+    // Menú de Proyectos
+    public void menuProyecto2() {
+        int opcion;
+        do {
+            System.out.println("\n*** Menú de Proyectos ***");
+            System.out.println("1. Agregar Proyecto");
+            System.out.println("2. Eliminar Proyecto");
+            System.out.println("3. Listar Proyectos");
+            System.out.println("4. Modificar Proyecto");
+            System.out.println("5. Volver al menú principal");
+            System.out.print("Elija una opción: ");
+            opcion = scanner.nextInt();
+            scanner.nextLine(); // Limpiar buffer
+
+            switch (opcion) {
+                case 1:
+                    agregarProyecto();
+                    break;
+                case 2:
+                    eliminarProyecto();
+                    break;
+                case 3:
+                    listarProyectos();
+                    break;
+                case 4:
+                    modificarProyecto();
+                    break;
+                case 5:
+                    System.out.println("Volviendo al menú principal...");
+                    break;
+                default:
+                    System.out.println("Opción inválida. Por favor, elija una opción válida.");
+            }
+        } while (opcion != 5);
+    }
+
+    // Menú de Usuarios y Tareas
+    public void menuUsuariosYTareas() {
+        int opcion;
+        do {
+            System.out.println("\n*** Menú de Usuarios y Tareas ***");
             System.out.println("1. Agregar usuario");
             System.out.println("2. Eliminar usuario");
             System.out.println("3. Listar usuarios");
@@ -364,34 +458,45 @@ public class Administrador extends Persona {
             System.out.println("6. Listar tareas");
             System.out.println("7. Asignar usuario a tarea");
             System.out.println("8. Eliminar usuario de tarea");
-            System.out.println("9. Salir");
+            System.out.println("9. Volver al menú principal");
             System.out.print("Seleccione una opción: ");
             opcion = scanner.nextInt();
             scanner.nextLine(); // Limpiar buffer
 
             switch (opcion) {
-                case 1 -> agregarUsuario();
-                case 2 -> eliminarUsuario();
-                case 3 -> listarUsuarios();
-                case 4 -> agregarTarea();
-                case 5 -> eliminarTarea();
-                case 6 -> listarTareas();
-                case 7 -> agregarUsuarioATarea(); // Nueva opción
-                case 8 -> eliminarUsuarioDeTarea(); // Nueva opción
-                case 9 -> System.out.println("Saliendo del sistema...");
-                default -> System.out.println("Opción no válida.");
+                case 1:
+                    agregarUsuario();
+                    break;
+                case 2:
+                    eliminarUsuario();
+                    break;
+                case 3:
+                    listarUsuarios();
+                    break;
+                case 4:
+                    agregarTarea();
+                    break;
+                case 5:
+                    eliminarTarea();
+                    break;
+                case 6:
+                    listarTareas();
+                    break;
+                case 7:
+                    agregarUsuarioATarea();
+                    break;
+                case 8:
+                    eliminarUsuarioDeTarea();
+                    break;
+                case 9:
+                    System.out.println("Volviendo al menú principal...");
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
             }
         } while (opcion != 9);
     }
 
-    public void agregarTareaAlProyecto(int idProyecto){
-        Tablero tablero = Tablero.getInstance();
-
-        Tarea tareaNueva = agregarTarea();
-
-        tablero.agregarTareaAProyecto(idProyecto, tareaNueva);
-
-    }
 
 
 }

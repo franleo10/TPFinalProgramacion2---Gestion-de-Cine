@@ -1,16 +1,20 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Tablero {
 
-    private List<Proyecto> proyectos;
-
+    // Instancia única del Tablero
     private static Tablero instancia;
 
-    public Tablero() {
-        this.proyectos = new ArrayList<>();
+    // Mapa que almacena los proyectos con el ID como clave
+    private Map<Integer, Proyecto> proyectos;
+
+    // Constructor privado para evitar instanciación directa
+    private Tablero() {
+        this.proyectos = new HashMap<>();
     }
 
+    // Método estático para obtener la instancia única
     public static Tablero getInstance() {
         if (instancia == null) {
             instancia = new Tablero();
@@ -20,66 +24,41 @@ public class Tablero {
 
     // Método para agregar un proyecto al tablero
     public void agregarProyecto(Proyecto proyecto) {
-        proyectos.add(proyecto);
+        proyectos.put(proyecto.getId(), proyecto);
+        System.out.println("Proyecto '" + proyecto.getNombre() + "' agregado al tablero.");
     }
 
-    // Método para obtener un proyecto por su ID
-    public Proyecto obtenerProyectoPorId(int idProyecto) {
-        for (Proyecto proyecto : proyectos) {
-            if (proyecto.getId() == idProyecto) {
-                return proyecto;
+    // Método para eliminar un proyecto del tablero
+    public boolean eliminarProyecto(int id, Administrador administrador) {
+        // Verificar si el administrador está autorizado para eliminar proyectos
+        if (administrador != null) {
+            if (proyectos.containsKey(id)) {
+                proyectos.remove(id);
+                System.out.println("Proyecto con ID " + id + " eliminado.");
+                return true;
+            } else {
+                System.out.println("No se encontró un proyecto con el ID " + id);
             }
+        } else {
+            System.out.println("Acceso denegado: solo un Administrador puede eliminar proyectos.");
         }
-        return null;
+        return false;
     }
 
-    // Método para obtener todos los proyectos
-    public List<Proyecto> getProyectos() {
-        return proyectos;
+    // Método para listar todos los proyectos
+    public void listarProyectos() {
+        if (proyectos.isEmpty()) {
+            System.out.println("No hay proyectos en el tablero.");
+            return;
+        }
+        System.out.println("Proyectos en el tablero:");
+        for (Proyecto proyecto : proyectos.values()) {
+            System.out.println(proyecto);
+        }
     }
 
-    public String mostrarProyectosActivos(){
-        StringBuilder sb = new StringBuilder();
-
-        for(Proyecto proyecto: proyectos){
-            if(proyecto.activo){
-                sb.append(proyecto).append("\n");
-            }
-        }
-
-        return sb.toString();
-    }
-
-    public String mostrarProyectosInactivos(){
-        StringBuilder sb = new StringBuilder();
-
-        for(Proyecto proyecto: proyectos){
-            if(!proyecto.activo){
-                sb.append(proyecto).append("\n");
-            }
-        }
-
-        return sb.toString();
-    }
-
-    public String agregarTareaAProyecto(int idProyecto, Tarea tareaNueva) {
-        for (Proyecto proyecto : proyectos) {
-            if (proyecto.getId() == idProyecto) {
-                proyecto.agregarTareaNuevaAlProyecto(tareaNueva);
-                return "Se agregó la tarea con éxito al proyecto con ID: " + idProyecto;
-            }
-        }
-        // Si no se encontró el proyecto, lanzar un mensaje de error
-        return "No se encontró el proyecto con ID: " + idProyecto;
-    }
-
-
-    public String mostrarTareasDelProyecto(int idProyecto){
-        for(Proyecto proyecto: proyectos){
-            if(proyecto.getId() == idProyecto){
-                return proyecto.mostrarTareas();
-            }
-        }
-        return "El ID del proyecto que indico no existe";
+    // Método para buscar un proyecto por su ID
+    public Proyecto buscarProyectoPorId(int id) {
+        return proyectos.get(id);
     }
 }
