@@ -28,7 +28,7 @@ public class Main {
         proyecto.agregarTarea(1);
         proyecto.agregarTarea(2);
 
-        Tablero tablero = new Tablero();
+        Tablero tablero = Tablero.getInstance();
         tablero.agregarProyecto(proyecto);
         tablero.agregarProyecto(proyecto2);
 
@@ -37,10 +37,12 @@ public class Main {
 
         GestorTareas gestorTareas = GestorTareas.getInstance();
 
-        admin.agregarTareaAlProyecto(1);
-        System.out.println(tablero.mostrarTareasDelProyecto(1));
+       // admin.agregarTareaAlProyecto(1);
+       // System.out.println(admin.crearYAgregarTareaAProyecto(1));
+       /// System.out.println(tablero.mostrarTareasDelProyecto(1));
  
-        admin.menu();
+       /// admin.menu();
+        admin.menuposta();
 
     }
 
