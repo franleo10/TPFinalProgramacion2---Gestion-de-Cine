@@ -153,14 +153,13 @@ public class Tarea {
 
     @Override
     public String toString() {
-        return "{" +
-            " id='" + getId() + "'" +
-            ", titulo='" + getTitulo() + "'" +
-            ", descripcion='" + getDescripcion() + "'" +
-            ", estado='" + getEstado() + "'" +
-            ", prioridad='" + getPrioridad() + "'" +
-            "}";
-    }
+    return "\n" +"Información de la Tarea:\n" +
+           "- ID: " + getId() + "\n" +
+           "- Título: " + getTitulo() + "\n" +
+           "- Descripción: " + getDescripcion() + "\n" +
+           "- Estado: " + getEstado() + "\n" +
+           "- Prioridad: " + getPrioridad();
+}
 
 }
 

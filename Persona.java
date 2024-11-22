@@ -21,8 +21,6 @@ public abstract class Persona {
         this.nombre = nombre;
     }
 
-
-
     public boolean isActivo() {
         return activo;
     }

@@ -37,7 +37,7 @@ public class GestorUsuarios {
 
         // Agregar usuario al conjunto
         usuarios.add(usuario);
-        System.out.println("Usuario agregado al sistema.");
+        System.out.println("Usuario agregado al sistema");
         return true;
     }
 
@@ -55,8 +55,8 @@ public class GestorUsuarios {
         }
 
         // Eliminar usuario del conjunto
-        usuarios.remove(usuario);
-        System.out.println("Usuario eliminado del sistema.");
+        usuario.setActivo(false);
+        System.out.println("Usuario dado de baja del sistema.");
         return true;
     }
 
@@ -80,7 +80,49 @@ public class GestorUsuarios {
 
         System.out.println("Usuarios registrados en el sistema:");
         for (Usuario usuario : usuarios) {
-            System.out.println(usuario);
+            System.out.println("\n" + "Nombre: " + usuario.getNombre());
+            System.out.println("Puesto: " + usuario.getPuesto());
+            System.out.println("IdUsuario: " + usuario.getId());
+            if(usuario.getActivo()){
+                System.out.println("Actualmente trabajando." + "\n");
+            }
+            else{
+                System.out.println("Actualmente dado de baja"+ "\n");
+            }
+        }
+    }
+    
+    // Listar todos los usuarios activos en el sistema
+    public void listarUsuariosActivos() {
+        if (usuarios.isEmpty()) {
+            System.out.println("No hay usuarios en el sistema.");
+            return;
+        }
+
+        System.out.println("Usuarios activos registrados en el sistema:");
+        for (Usuario usuario : usuarios) {
+            if(usuario.getActivo()){
+            System.out.println("\n" + "Nombre: " + usuario.getNombre());
+            System.out.println("Puesto: " + usuario.getPuesto());
+            System.out.println("IdUsuario: " + usuario.getId() + "\n");
+            }
+        }
+    }
+
+    // Listar todos los usuarios inactivos en el sistema
+    public void listarUsuariosInactivos() {
+        if (usuarios.isEmpty()) {
+            System.out.println("No hay usuarios en el sistema.");
+            return;
+        }
+
+        System.out.println("Usuarios inactivos registrados en el sistema:");
+        for (Usuario usuario : usuarios) {
+            if(!usuario.getActivo()){
+            System.out.println("\n" + "Nombre: " + usuario.getNombre());
+            System.out.println("Puesto: " + usuario.getPuesto());
+            System.out.println("IdUsuario: " + usuario.getId() + "\n");
+            }
         }
     }
 

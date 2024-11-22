@@ -30,21 +30,18 @@ public class Main {
         proyecto.agregarTareaNuevaAlProyecto(tarea1);
         proyecto.agregarTareaNuevaAlProyecto(tarea2);
 
-        Tablero tablero = new Tablero();
-        tablero.agregarProyecto(proyecto);
-        tablero.agregarProyecto(proyecto2);
-
         // Crear administrador
         Administrador admin = new Administrador("Admin", "ADMIN");
 
-        GestorTareas gestorTareas = GestorTareas.getInstance();
-
         GestorProyectos gestorProyectos = GestorProyectos.getInstance();
 
-        admin.agregarTareaAProyecto(1);
-        System.out.println(gestorProyectos.mostrarTareasDelProyecto(1));
+        GestorUsuarios gestorUsuarios = GestorUsuarios.getInstance();
 
+        admin.menuUsuariosYTareas();
 
+        gestorUsuarios.listarUsuarios();
+
+        gestorProyectos.mostrarTareasDelProyecto(1);
 
     }
 
