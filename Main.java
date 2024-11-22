@@ -3,6 +3,8 @@
 
 import java.util.*;
 
+import java.util.*;
+
 public class Main {
     public static void main(String[] args) {
 
@@ -25,10 +27,10 @@ public class Main {
         // Crear proyectos y agrego tareas
         Proyecto proyecto = new Proyecto("Proyecto 1");
         Proyecto proyecto2 = new Proyecto("Proyecto 2");
-        proyecto.agregarTarea(1);
-        proyecto.agregarTarea(2);
+        proyecto.agregarTareaNuevaAlProyecto(tarea1);
+        proyecto.agregarTareaNuevaAlProyecto(tarea2);
 
-        Tablero tablero = Tablero.getInstance();
+        Tablero tablero = new Tablero();
         tablero.agregarProyecto(proyecto);
         tablero.agregarProyecto(proyecto2);
 
@@ -37,12 +39,12 @@ public class Main {
 
         GestorTareas gestorTareas = GestorTareas.getInstance();
 
-       // admin.agregarTareaAlProyecto(1);
-       // System.out.println(admin.crearYAgregarTareaAProyecto(1));
-       /// System.out.println(tablero.mostrarTareasDelProyecto(1));
- 
-       /// admin.menu();
-        admin.menuposta();
+        GestorProyectos gestorProyectos = GestorProyectos.getInstance();
+
+        admin.agregarTareaAProyecto(1);
+        System.out.println(gestorProyectos.mostrarTareasDelProyecto(1));
+
+
 
     }
 
