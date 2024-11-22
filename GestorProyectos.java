@@ -1,5 +1,3 @@
-import java.util.HashMap;
-import java.util.Map;
 import java.util.*;
 
 public class GestorProyectos {
@@ -48,7 +46,8 @@ public class GestorProyectos {
 
         System.out.println("Proyectos registrados en el sistema:");
         for (Proyecto proyecto : proyectos.values()) {
-            System.out.println(proyecto);
+            System.out.println("\n" + "-Titulo: " + proyecto.getNombre());
+            System.out.println("-IdProyecto: " + proyecto.getId() + "\n");
         }
     }
 
@@ -191,10 +190,11 @@ public class GestorProyectos {
 
         StringBuilder sb = new StringBuilder();
 
-        sb.append(proyectos.get(idProyecto).mostrarTareas());
+        sb.append(proyectos.get(idProyecto).listarTareas());
 
         return sb.toString();
     }
+
     public void agregarProyecto(Proyecto proyecto) {
         if (proyectos.containsKey(proyecto.getId())) {
             System.out.println("El proyecto con ID " + proyecto.getId() + " ya está registrado.");
@@ -205,7 +205,172 @@ public class GestorProyectos {
         System.out.println("Proyecto con ID " + proyecto.getId() + " agregado exitosamente.");
     }
 
+    public void listarTareasPorEstado(int idProyecto){
+        int opcListaTareas = 0;
+        boolean i = true; 
+                        while(i){
+                        try{
+                            if(buscarProyectoPorId(idProyecto) != null){
+                                System.out.println("Tipos de tareas para listar:");
+                                menuListadoDeTareas();
+                                opcListaTareas = scanner.nextInt();
+                                    switch(opcListaTareas){
+
+                                    case 1:{
+
+                                        System.out.println("Tareas en pendientes: ");
+                                        System.out.println("\n" +"---------------------------------------------------");
+                                        System.out.println(buscarProyectoPorId(idProyecto).listarTareasPendientes());
+                                        System.out.println("\n" +"---------------------------------------------------");
+                                        break;
+                                    }
+                                    case 2:{
+                                        System.out.println("Tareas en proceso: ");
+                                        System.out.println("\n" +"---------------------------------------------------");
+                                        System.out.println(buscarProyectoPorId(idProyecto).listarTareasEnProceso());
+                                        System.out.println("\n" +"---------------------------------------------------");
+            
+                                        break;
+                                    }
+                                    case 3:{
+                                        System.out.println("Tareas en finalizadas: ");
+                                        System.out.println("\n" +"---------------------------------------------------");
+                                        System.out.println(buscarProyectoPorId(idProyecto).listarTareasFinalizadas());
+                                        System.out.println("\n" +"---------------------------------------------------");
+            
+                                        break;
+                                    }
+                                    case 4:{
+                                        System.out.println("Todas las tareas: ");
+                                        System.out.println("\n" +"---------------------------------------------------");
+                                        System.out.println(buscarProyectoPorId(idProyecto).listarTareas());
+                                        System.out.println("\n" +"---------------------------------------------------");
+                                        break;
+                                    }
+                                    default:{
+                                        System.out.println("La opcion ingresada no es valida.");
+                                    }
+        
+                                    }
+                                
+                                i = false;
+                            }
+                        }
+                        catch(NumberFormatException e){
+                            System.out.println("La opcion ingresada no es valida.");
+                        } 
+                    }
+    }
 
 
+    public void listarTareasProyecto(int idProyecto) {
+        boolean continuar = true;
+    
+        while (continuar) {
+            try {
+                if (buscarProyectoPorId(idProyecto) != null) {
+                    System.out.println("\nSeleccione una opción para listar las tareas:");
+                    System.out.println("1. Listar por estado");
+                    System.out.println("2. Listar por prioridad");
+                    System.out.println("3. Salir");
+                    System.out.print("Opción: ");
+                    int opcionPrincipal = scanner.nextInt();
+    
+                    switch (opcionPrincipal) {
+                        case 1: {
+                            listarTareasPorEstado(idProyecto);
+                            break;
+                        }
+                        case 2: {
+                            listarTareasPorPrioridad(idProyecto);
+                            break;
+                        }
+                        case 3: {
+                            continuar = false;
+                            System.out.println("Saliendo del listado de tareas...");
+                            break;
+                        }
+                        default: {
+                            System.out.println("Opción inválida. Intente nuevamente.");
+                        }
+                    }
+                } else {
+                    System.out.println("No se encontró un proyecto con el ID: " + idProyecto);
+                    continuar = false;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada inválida. Por favor ingrese un número.");
+                scanner.nextLine(); // Limpiar el buffer del scanner
+            }
+        }
+    }
+
+    // Método para listar tareas por prioridad
+public void listarTareasPorPrioridad(int idProyecto) {
+    boolean continuar = true;
+
+    while (continuar) {
+        try {
+            System.out.println("\nTipos de tareas para listar por prioridad:");
+            menuListadoPorPrioridad();
+            int opcion = scanner.nextInt();
+
+            switch (opcion) {
+                case 1: {
+                    System.out.println("Tareas con prioridad ALTA:");
+                    System.out.println("\n---------------------------------------------------");
+                    System.out.println(buscarProyectoPorId(idProyecto).listarTareasPrioridadAlta());
+                    System.out.println("\n---------------------------------------------------");
+                    break;
+                }
+                case 2: {
+                    System.out.println("Tareas con prioridad MEDIA:");
+                    System.out.println("\n---------------------------------------------------");
+                    System.out.println(buscarProyectoPorId(idProyecto).listarTareasPrioridadMedia());
+                    System.out.println("\n---------------------------------------------------");
+                    break;
+                }
+                case 3: {
+                    System.out.println("Tareas con prioridad BAJA:");
+                    System.out.println("\n---------------------------------------------------");
+                    System.out.println(buscarProyectoPorId(idProyecto).listarTareasPrioridadBaja());
+                    System.out.println("\n---------------------------------------------------");
+                    break;
+                }
+                case 4: {
+                    System.out.println("Todas las tareas:");
+                    System.out.println("\n---------------------------------------------------");
+                    System.out.println(buscarProyectoPorId(idProyecto).listarTareas());
+                    System.out.println("\n---------------------------------------------------");
+                    break;
+                }
+                default: {
+                    System.out.println("Opción inválida. Intente nuevamente.");
+                }
+            }
+
+            continuar = false;
+        } catch (InputMismatchException e) {
+            System.out.println("Entrada inválida. Por favor ingrese un número.");
+            scanner.nextLine(); // Limpiar el buffer del scanner
+        }
+    }
+}
+
+// Submenú para listar por prioridad
+public void menuListadoPorPrioridad() {
+    System.out.println("1. Prioridad ALTA");
+    System.out.println("2. Prioridad MEDIA");
+    System.out.println("3. Prioridad BAJA");
+    System.out.println("4. Todas las prioridades");
+    System.out.print("Seleccione una opción: ");
+}
+
+
+
+    public void menuListadoDeTareas(){
+        System.out.println("1. Por hacer" + "\n" + "2. En progreso" + "\n" + "3. Completadas" + "\n" + "4. Todas");
+        System.out.println("Seleccione la opcion deseada: ");
+    }
 
 }

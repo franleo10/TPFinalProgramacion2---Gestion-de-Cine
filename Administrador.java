@@ -2,9 +2,10 @@ import java.nio.channels.Pipe.SourceChannel;
 import java.security.InvalidParameterException;
 import java.util.*;
 
+import javax.xml.transform.TransformerFactoryConfigurationError;
+
 public class Administrador extends Persona {
 
-    Tablero tablero;
     private Scanner scanner = new Scanner(System.in);
 
     public Administrador(String nombre, String rol) {
@@ -16,7 +17,8 @@ public class Administrador extends Persona {
         System.out.println("Tarea finalizada con exito...");
     }
 
-    public void EliminarUsuarioDeTarea(Usuario usuario, Tarea tarea) { ///PARA VERIFICAR SI EXISTE LA TAREA TENGO QUE VERIFICARLO EN LA COLUMNA PRIMERO
+    public void EliminarUsuarioDeTarea(Usuario usuario, Tarea tarea) { /// PARA VERIFICAR SI EXISTE LA TAREA TENGO QUE
+                                                                       /// VERIFICARLO EN LA COLUMNA PRIMERO
 
         try {
             tarea.VerificarUsuario(usuario);
@@ -27,7 +29,6 @@ public class Administrador extends Persona {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
 
     }
 
@@ -42,33 +43,26 @@ public class Administrador extends Persona {
 
     }
 
-    public void agregarProyecto(){
+    public void agregarProyecto() {
 
-        Tablero tablero = Tablero.getInstance();
         GestorProyectos gestorProyectos = GestorProyectos.getInstance();
 
         System.out.println("Ingrese el nombre del proyecto.");
         String nombre = scanner.nextLine();
 
-        while(nombre == null){
-         
+        while (nombre == null) {
+
             System.out.println("Debe indicar un nombre para el proyecto.");
             nombre = scanner.nextLine();
 
-            if(nombre != null){
+            if (nombre != null) {
                 Proyecto proyectoNuevo = new Proyecto(nombre);
                 gestorProyectos.AgregarProyectoNuevo(proyectoNuevo);
             }
 
         }
 
-
     }
-
-
-
-
-
 
     public void modificarUsuario() {
         System.out.println("Ingrese el ID del usuario a modificar:");
@@ -123,7 +117,6 @@ public class Administrador extends Persona {
         }
     }
 
-
     public void agregarUsuario() {
         System.out.println("Ingrese el nombre del usuario:");
         String nombre = scanner.nextLine();
@@ -131,7 +124,7 @@ public class Administrador extends Persona {
         String rol = scanner.nextLine();
 
         Usuario usuario = new Usuario(nombre, rol);
-        System.out.println("Usuario agregado: " + usuario);
+        System.out.println(usuario);
     }
 
     // Eliminar un usuario por ID
@@ -144,19 +137,15 @@ public class Administrador extends Persona {
         Usuario usuario = gestorUsuarios.buscarUsuarioPorId(id);
 
         if (usuario != null) {
-            gestorUsuarios.eliminarUsuario(usuario);
-        } else {
-            System.out.println("Usuario no encontrado.");
+            if (!usuario.getActivo()) {
+                System.out.println("El usuario que quiere eliminar no es valido");
+            } else {
+                gestorUsuarios.eliminarUsuario(usuario);
+            }
         }
+
     }
 
-    // Listar todos los usuarios
-    public void listarUsuarios() {
-        GestorUsuarios.getInstance().listarUsuarios();
-    }
-
-
-    
     public Tarea agregarTarea() {
         System.out.println("Ingrese el título de la tarea:");
         String titulo = scanner.nextLine();
@@ -167,9 +156,9 @@ public class Administrador extends Persona {
         Prioridad prioridad = null;
         while (prioridad == null) {
             System.out.println("Ingrese la prioridad (1.ALTA, 2.MEDIA, 3.BAJA):");
-            if (scanner.hasNextInt()) {  // Verificar si la entrada es un número
+            if (scanner.hasNextInt()) { // Verificar si la entrada es un número
                 int resul = scanner.nextInt();
-                scanner.nextLine();  // Limpiar el buffer de entrada
+                scanner.nextLine(); // Limpiar el buffer de entrada
 
                 switch (resul) {
                     case 1:
@@ -196,9 +185,9 @@ public class Administrador extends Persona {
         Estado estado = null;
         while (estado == null) {
             System.out.println("Ingrese el estado (1.PENDIENTE, 2.EN_PROGRESO, 3.FINALIZADO):");
-            if (scanner.hasNextInt()) {  // Verificar si la entrada es un número
+            if (scanner.hasNextInt()) { // Verificar si la entrada es un número
                 int resul = scanner.nextInt();
-                scanner.nextLine();  // Limpiar el buffer de entrada
+                scanner.nextLine(); // Limpiar el buffer de entrada
 
                 switch (resul) {
                     case 1:
@@ -244,7 +233,6 @@ public class Administrador extends Persona {
     public void listarTareas() {
         GestorTareas.getInstance().listarTareas();
     }
-
 
     public void agregarUsuarioATarea() {
         try {
@@ -311,14 +299,8 @@ public class Administrador extends Persona {
         }
     }
 
-
-
-
-
     public String crearYAgregarTareaAProyecto(int idProyecto) {
-        // Obtener la instancia del tablero
-        Tablero tablero = Tablero.getInstance();
-GestorProyectos gestorProyectos=GestorProyectos.getInstance();
+        GestorProyectos gestorProyectos = GestorProyectos.getInstance();
         // Buscar el proyecto por ID en el tablero
         Proyecto proyecto = gestorProyectos.buscarProyectoPorId(idProyecto);
         System.out.println("lllll");
@@ -336,25 +318,24 @@ GestorProyectos gestorProyectos=GestorProyectos.getInstance();
         return "Tarea agregada con éxito al proyecto con ID " + idProyecto + ".";
     }
 
-    ///////LOS NUEVOS METODOS DE MANEJAR LOS PROYECTOS EN LA CLASE ADMIN
+    /////// LOS NUEVOS METODOS DE MANEJAR LOS PROYECTOS EN LA CLASE ADMIN
 
     // Agregar un nuevo proyecto
 
     // Eliminar un proyecto
     public void eliminarProyecto() {
-        GestorProyectos gestorProyectos=GestorProyectos.getInstance();
+        GestorProyectos gestorProyectos = GestorProyectos.getInstance();
         System.out.println("Ingrese el ID del proyecto a eliminar:");
         int idProyecto = scanner.nextInt();
         scanner.nextLine(); // Limpiar buffer
 
-        Tablero tablero = Tablero.getInstance();
-        gestorProyectos.eliminarProyecto(idProyecto);  // Se pasa la instancia de Administrador
+        gestorProyectos.eliminarProyecto(idProyecto); // Se pasa la instancia de Administrador
     }
 
     // Listar todos los proyectos
     public void listarProyectos() {
-        Tablero tablero = Tablero.getInstance();
-        GestorProyectos gestorProyectos=GestorProyectos.getInstance();
+
+        GestorProyectos gestorProyectos = GestorProyectos.getInstance();
         gestorProyectos.listarProyectos();
     }
 
@@ -364,8 +345,7 @@ GestorProyectos gestorProyectos=GestorProyectos.getInstance();
         int idProyecto = scanner.nextInt();
         scanner.nextLine(); // Limpiar buffer
 
-        Tablero tablero = Tablero.getInstance();
-        GestorProyectos gestorProyectos=GestorProyectos.getInstance();
+        GestorProyectos gestorProyectos = GestorProyectos.getInstance();
         Proyecto proyecto = gestorProyectos.buscarProyectoPorId(idProyecto);
 
         if (proyecto != null) {
@@ -444,7 +424,13 @@ GestorProyectos gestorProyectos=GestorProyectos.getInstance();
     // Menú de Usuarios y Tareas
     public void menuUsuariosYTareas() {
         int opcion;
+        boolean i;
+        int opc;
+        GestorProyectos gestorProyectos = GestorProyectos.getInstance();
         do {
+            i = true;
+            opc = 0;
+
             System.out.println("\n*** Menú de Usuarios y Tareas ***");
             System.out.println("1. Agregar usuario");
             System.out.println("2. Eliminar usuario");
@@ -464,22 +450,73 @@ GestorProyectos gestorProyectos=GestorProyectos.getInstance();
                     agregarUsuario();
                     break;
                 case 2:
+                    listarUsuariosActivos();
                     eliminarUsuario();
                     break;
                 case 3:
                     listarUsuarios();
                     break;
                 case 4:
-                    agregarTarea();
+                    listarProyectos();
+                    while(i){
+                        System.out.println("Ingrese el id del proyecto al que desea agregarle una tarea:");
+                        try{
+                            opc = scanner.nextInt();
+                            if(gestorProyectos.buscarProyectoPorId(opc) != null){ 
+                                agregarTareaAProyecto(opc);
+                                i = false;
+                            }
+                        }
+                        catch(NumberFormatException e){
+                            System.out.println("La opcion ingresada no es valida.");
+                        } 
+                    }
+
+
+                    System.out.println(gestorProyectos.mostrarTareasDelProyecto(opc) + "\n");
+
                     break;
                 case 5:
-                    eliminarTarea();
+                    listarProyectos();
+                    while(i){
+                        System.out.println("Ingrese el id del proyecto al que desea eliminarle una tarea:");
+                        try{
+                            opc = scanner.nextInt();
+                            if(gestorProyectos.buscarProyectoPorId(opc) != null){
+                                eliminarTareaDeUnPoryecto(opc);
+                                i = false;
+                            }
+                        }
+                        catch(NumberFormatException e){
+                            System.out.println("La opcion ingresada no es valida.");
+                        } 
+                    }
+
                     break;
                 case 6:
-                    listarTareas();
+                    
+                    while(i){
+                        listarProyectos();
+                        System.out.println("Ingrese el id del proyecto al que desea listar sus tarea:");
+                        try{
+                            opc = scanner.nextInt();
+                            if(gestorProyectos.buscarProyectoPorId(opc) != null){
+                                
+                                gestorProyectos.listarTareasProyecto(opc);
+                                
+                                i = false;
+                            }
+                        }
+                        catch(NumberFormatException e){
+                            System.out.println("La opcion ingresada no es valida.");
+                        } 
+                    }  
+
                     break;
                 case 7:
-                    agregarUsuarioATarea();
+                    
+                    
+
                     break;
                 case 8:
                     eliminarUsuarioDeTarea();
@@ -493,6 +530,20 @@ GestorProyectos gestorProyectos=GestorProyectos.getInstance();
         } while (opcion != 9);
     }
 
+    public void eliminarTareaDeUnPoryecto(int idProyecto){
+        GestorProyectos gestorProyectos = GestorProyectos.getInstance();
+             
+            System.out.println(gestorProyectos.mostrarTareasDelProyecto(idProyecto));
+            System.out.println("Ingrese el ID de la tarea que desea eliminar del proyecto:");
+            int opc = scanner.nextInt();
+
+            gestorProyectos.eliminarTareaDeProyecto(idProyecto, opc);
+
+            System.out.println("\n" + "Tareas restantes en el proyecto:");
+            System.out.println("---------------------------------------------------------------------");
+            System.out.println(gestorProyectos.mostrarTareasDelProyecto(idProyecto));
+            System.out.println("\n" + "---------------------------------------------------------------------");
+        }
 
     public String agregarTareaAProyecto(int idProyecto) {
         GestorProyectos gestorProyectos = GestorProyectos.getInstance();
@@ -503,27 +554,22 @@ GestorProyectos gestorProyectos=GestorProyectos.getInstance();
 
         return "No fue posible agregar la tarea";
     }
+
+    // Listar todos los usuarios
+    public void listarUsuarios() {
+        GestorUsuarios.getInstance().listarUsuarios();
+    }
+
+    public void listarUsuariosActivos() {
+        GestorUsuarios.getInstance().listarUsuariosActivos();
+    }
+
+    public void listarUsuariosInactivos() {
+        GestorUsuarios.getInstance().listarUsuariosInactivos();
+    }
+
+    public void menuListadoDeTareas(){
+        System.out.println("1. Por hacer" + "\n" + "2. En progreso" + "\n" + "3. Completadas" + "\n" + "4. Todas");
+        System.out.println("Seleccione la opcion deseada: ");
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

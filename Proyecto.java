@@ -14,6 +14,8 @@ public class Proyecto {
         this.nombre = nombre;
         this.activo = true;
         listaDeTareas = new HashSet<>();
+        GestorProyectos gestorProyectos = GestorProyectos.getInstance();
+        gestorProyectos.agregarProyecto(this);
     }
 
     public int getId() {
@@ -42,6 +44,66 @@ public class Proyecto {
 
     public Set<Tarea> getTareasPorEstado() {
         return listaDeTareas;
+    }
+
+    public String listarTareasPendientes(){
+        StringBuilder sb = new StringBuilder();
+        for(Tarea tarea: listaDeTareas){
+            if(tarea.getEstado() == Estado.Pendiente){
+                sb.append(tarea).append("\n");
+            }
+        }
+        return sb.toString();
+    }
+
+    public String listarTareasEnProceso(){
+        StringBuilder sb = new StringBuilder();
+        for(Tarea tarea: listaDeTareas){
+            if(tarea.getEstado() == Estado.Proceso){
+                sb.append(tarea).append("\n");
+            }
+        }
+        return sb.toString();
+    }
+
+    public String listarTareasFinalizadas(){
+        StringBuilder sb = new StringBuilder();
+        for(Tarea tarea: listaDeTareas){
+            if(tarea.getEstado() == Estado.Finalizado){
+                sb.append(tarea).append("\n");
+            }
+        }
+        return sb.toString();
+    }
+
+    public String listarTareasPrioridadBaja(){
+        StringBuilder sb = new StringBuilder();
+        for(Tarea tarea: listaDeTareas){
+            if(tarea.getPrioridad() == Prioridad.Baja){
+                sb.append(tarea).append("\n");
+            }
+        }
+        return sb.toString();
+    }
+    
+    public String listarTareasPrioridadMedia(){
+        StringBuilder sb = new StringBuilder();
+        for(Tarea tarea: listaDeTareas){
+            if(tarea.getPrioridad() == Prioridad.Media){
+                sb.append(tarea).append("\n");
+            }
+        }
+        return sb.toString();
+    }
+
+    public String listarTareasPrioridadAlta(){
+        StringBuilder sb = new StringBuilder();
+        for(Tarea tarea: listaDeTareas){
+            if(tarea.getPrioridad() == Prioridad.Alta){
+                sb.append(tarea).append("\n");
+            }
+        }
+        return sb.toString();
     }
 
     public Tarea verificarTareaPorId(int idTarea) throws TareaInexistente {
@@ -105,7 +167,7 @@ public class Proyecto {
         }
     }
 
-    public String mostrarTareas(){
+    public String listarTareas(){
         StringBuilder sb = new StringBuilder();
         for(Tarea tarea: listaDeTareas){
             sb.append(tarea).append("\n");
