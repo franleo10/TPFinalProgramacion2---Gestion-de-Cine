@@ -47,7 +47,7 @@ public class Administrador extends Persona {
         Tablero tablero = Tablero.getInstance();
         GestorProyectos gestorProyectos = GestorProyectos.getInstance();
 
-        System.out.println("Ingrese el nombre del tablero.");
+        System.out.println("Ingrese el nombre del proyecto.");
         String nombre = scanner.nextLine();
 
         while(nombre == null){
@@ -57,7 +57,7 @@ public class Administrador extends Persona {
 
             if(nombre != null){
                 Proyecto proyectoNuevo = new Proyecto(nombre);
-                tablero.agregarProyecto (proyectoNuevo);
+                gestorProyectos.AgregarProyectoNuevo(proyectoNuevo);
             }
 
         }
@@ -244,6 +244,8 @@ public class Administrador extends Persona {
     public void listarTareas() {
         GestorTareas.getInstance().listarTareas();
     }
+
+
     public void agregarUsuarioATarea() {
         try {
             System.out.println("Ingrese el ID de la tarea:");
@@ -337,30 +339,23 @@ GestorProyectos gestorProyectos=GestorProyectos.getInstance();
     ///////LOS NUEVOS METODOS DE MANEJAR LOS PROYECTOS EN LA CLASE ADMIN
 
     // Agregar un nuevo proyecto
-    public void agregarProyecto2() {
-        Tablero tablero = Tablero.getInstance();
-
-        System.out.println("Ingrese el nombre del proyecto:");
-        String nombre = scanner.nextLine();
-
-        Proyecto nuevoProyecto = new Proyecto(nombre);
-        tablero.agregarProyecto(nuevoProyecto);
-    }
 
     // Eliminar un proyecto
     public void eliminarProyecto() {
+        GestorProyectos gestorProyectos=GestorProyectos.getInstance();
         System.out.println("Ingrese el ID del proyecto a eliminar:");
         int idProyecto = scanner.nextInt();
         scanner.nextLine(); // Limpiar buffer
 
         Tablero tablero = Tablero.getInstance();
-        tablero.eliminarProyecto(idProyecto, this);  // Se pasa la instancia de Administrador
+        gestorProyectos.eliminarProyecto(idProyecto);  // Se pasa la instancia de Administrador
     }
 
     // Listar todos los proyectos
     public void listarProyectos() {
         Tablero tablero = Tablero.getInstance();
-        tablero.listarProyectos();
+        GestorProyectos gestorProyectos=GestorProyectos.getInstance();
+        gestorProyectos.listarProyectos();
     }
 
     // Modificar un proyecto (si es necesario)
@@ -370,7 +365,8 @@ GestorProyectos gestorProyectos=GestorProyectos.getInstance();
         scanner.nextLine(); // Limpiar buffer
 
         Tablero tablero = Tablero.getInstance();
-        Proyecto proyecto = tablero.buscarProyectoPorId(idProyecto);
+        GestorProyectos gestorProyectos=GestorProyectos.getInstance();
+        Proyecto proyecto = gestorProyectos.buscarProyectoPorId(idProyecto);
 
         if (proyecto != null) {
             System.out.println("Ingrese el nuevo nombre del proyecto:");
@@ -498,7 +494,15 @@ GestorProyectos gestorProyectos=GestorProyectos.getInstance();
     }
 
 
+    public String agregarTareaAProyecto(int idProyecto) {
+        GestorProyectos gestorProyectos = GestorProyectos.getInstance();
 
+        if (gestorProyectos.agregarTareaAProyecto(idProyecto)) {
+            System.out.println("Tarea agregada con exito");
+        }
+
+        return "No fue posible agregar la tarea";
+    }
 }
 
 
