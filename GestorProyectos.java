@@ -14,6 +14,7 @@ public class GestorProyectos {
         this.proyectos = new HashMap<>();
     }
 
+
     // Método estático para obtener la instancia única
     public static GestorProyectos getInstance() {
         if (instancia == null) {

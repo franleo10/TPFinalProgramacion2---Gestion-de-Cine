@@ -137,6 +137,24 @@ public class Tarea {
         usuarios.add(usuario);
         return "Usuario: " + usuario.getNombre()+" agregado con exito a la tarea.";
     }
+
+    public void ListarUsuariosTarea(int Id_Tarea){
+
+        GestorTareas gestorTareas=GestorTareas.getInstance();
+        Tarea tarea= gestorTareas.buscarTareaPorId(Id_Tarea);
+
+     for (Usuario usuario: tarea.getUsuarios()){
+         System.out.println(usuario);
+
+     }
+
+
+
+        }
+
+
+
+
     
     @Override
     public boolean equals(Object obj) {

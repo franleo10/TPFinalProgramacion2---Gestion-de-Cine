@@ -14,6 +14,10 @@ public class GestorTareas {
         this.tareas = new HashMap<>();
     }
 
+    public Map<Integer, Tarea> getTareas() {
+        return tareas;
+    }
+
     // Método estático para obtener la instancia única
     public static GestorTareas getInstance() {
         if (instancia == null) {
@@ -56,6 +60,7 @@ public class GestorTareas {
 
     // Buscar una tarea por ID
     public Tarea buscarTareaPorId(int id) {
+
         if (tareas.containsKey(id)) {
             return tareas.get(id);
         }
@@ -106,6 +111,18 @@ public class GestorTareas {
         System.out.println("Elementos en el mapa (ID -> Tarea):");
         for (Map.Entry<Integer, Tarea> entry : tareas.entrySet()) {
             System.out.println("ID: " + entry.getKey() + " -> " + entry.getValue());
+        }
+    }
+    public void listarTareasXusuario() {
+        if (tareas.isEmpty()) {
+            System.out.println("No hay tareas en el sistema.");
+            return;
+        }
+
+        System.out.println("Tareas registradas en el sistema:");
+        for (Tarea tarea : tareas.values()) {
+            System.out.println("Nombre tarea: "+tarea.getTitulo());
+
         }
     }
 
