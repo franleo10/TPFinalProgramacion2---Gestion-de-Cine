@@ -1,6 +1,7 @@
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.*;
 
 public class GestorUsuarios {
     
@@ -138,6 +139,37 @@ public class GestorUsuarios {
         usuario.setActivo(activo);
         System.out.println("Usuario modificado exitosamente.");
         return true;
+    }
+
+    public void listarUsuariosDeUnaTarea(int idTarea) {
+        GestorTareas gestorTareas = GestorTareas.getInstance();
+        Tarea tarea = gestorTareas.buscarTareaPorId(idTarea);
+
+
+        if (tarea == null) {
+            System.out.println("No se encontró la tarea con ID: " + idTarea);
+            return;
+        }
+
+
+        Set<Usuario> usuariosAsociados = tarea.getUsuarios();
+
+        if (usuariosAsociados == null || usuariosAsociados.isEmpty()) {
+            System.out.println("No hay usuarios asociados a la tarea con ID: " + idTarea);
+            return;
+        }
+
+        System.out.println("Usuarios asociados a la tarea con ID: " + idTarea + ":");
+        for (Usuario usuario : usuariosAsociados) {
+            System.out.println("\nNombre: " + usuario.getNombre());
+            System.out.println("Puesto: " + usuario.getPuesto());
+            System.out.println("ID Usuario: " + usuario.getId());
+            if (usuario.getActivo()) {
+                System.out.println("Estado: Actualmente trabajando\n");
+            } else {
+                System.out.println("Estado: Actualmente dado de baja\n");
+            }
+        }
     }
 
 

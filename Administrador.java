@@ -18,7 +18,7 @@ public class Administrador extends Persona {
     }
 
     public void EliminarUsuarioDeTarea(Usuario usuario, Tarea tarea) { /// PARA VERIFICAR SI EXISTE LA TAREA TENGO QUE
-                                                                       /// VERIFICARLO EN LA COLUMNA PRIMERO
+    /// VERIFICARLO EN LA COLUMNA PRIMERO
 
         try {
             tarea.VerificarUsuario(usuario);
@@ -234,27 +234,27 @@ public class Administrador extends Persona {
         GestorTareas.getInstance().listarTareas();
     }
 
-    public void agregarUsuarioATarea() {
+    public void agregarUsuarioATarea(int idTarea, int idUsuario) {
+        GestorTareas gestorTareas = GestorTareas.getInstance();
+        GestorUsuarios gestorUsuarios = GestorUsuarios.getInstance();
+
         try {
-            System.out.println("Ingrese el ID de la tarea:");
-            int idTarea = scanner.nextInt();
-            scanner.nextLine(); // Consumir salto de línea
-
-            System.out.println("Ingrese el ID del usuario a agregar:");
-            int idUsuario = scanner.nextInt();
-            scanner.nextLine(); // Consumir salto de línea
-
-            // Obtener el gestor de tareas y buscar la tarea
-            GestorTareas gestorTareas = GestorTareas.getInstance();
+            // Verificar y obtener la tarea por ID
             Tarea tarea = gestorTareas.buscarTareaPorId(idTarea);
-
             if (tarea == null) {
-                System.out.println("No se encontró la tarea con ID: " + idTarea);
+                System.out.println("No se encontró la tarea con ID: " + idTarea + ".");
+                return;
+            }
+
+            // Verificar y obtener el usuario por ID
+            Usuario usuario = gestorUsuarios.buscarUsuarioPorId(idUsuario);
+            if (usuario == null) {
+                System.out.println("No se encontró el usuario con ID: " + idUsuario + ".");
                 return;
             }
 
             // Agregar el usuario a la tarea
-            String resultado = tarea.agregarUsuarioPorId(idUsuario);
+            String resultado = tarea.agregarUsuarioPorId(usuario.getId());
             System.out.println(resultado);
 
         } catch (UsuarioNoEncontrado e) {
@@ -264,17 +264,9 @@ public class Administrador extends Persona {
         }
     }
 
-    public void eliminarUsuarioDeTarea() {
+    public void eliminarUsuarioDeTarea(int idTarea , int idUsuario ) {
         try {
-            System.out.println("Ingrese el ID de la tarea:");
-            int idTarea = scanner.nextInt();
-            scanner.nextLine(); // Consumir salto de línea
 
-            System.out.println("Ingrese el ID del usuario a eliminar:");
-            int idUsuario = scanner.nextInt();
-            scanner.nextLine(); // Consumir salto de línea
-
-            // Obtener el gestor de tareas y buscar la tarea
             GestorTareas gestorTareas = GestorTareas.getInstance();
             Tarea tarea = gestorTareas.buscarTareaPorId(idTarea);
 
@@ -283,14 +275,14 @@ public class Administrador extends Persona {
                 return;
             }
 
-            // Buscar el usuario en la tarea
+
             Usuario usuario = tarea.buscarUsuarioPorId(idUsuario);
             if (usuario == null) {
                 System.out.println("El usuario con ID " + idUsuario + " no está asignado a la tarea.");
                 return;
             }
 
-            // Eliminar el usuario de la tarea
+
             tarea.EliminarUsuarioTarea(usuario);
             System.out.println("Usuario eliminado de la tarea exitosamente.");
 
@@ -427,6 +419,8 @@ public class Administrador extends Persona {
         boolean i;
         int opc;
         GestorProyectos gestorProyectos = GestorProyectos.getInstance();
+        GestorTareas gestorTareas = GestorTareas.getInstance();
+        GestorUsuarios gestorUsuarios = GestorUsuarios.getInstance();
         do {
             i = true;
             opc = 0;
@@ -458,18 +452,17 @@ public class Administrador extends Persona {
                     break;
                 case 4:
                     listarProyectos();
-                    while(i){
+                    while (i) {
                         System.out.println("Ingrese el id del proyecto al que desea agregarle una tarea:");
-                        try{
+                        try {
                             opc = scanner.nextInt();
-                            if(gestorProyectos.buscarProyectoPorId(opc) != null){ 
+                            if (gestorProyectos.buscarProyectoPorId(opc) != null) {
                                 agregarTareaAProyecto(opc);
                                 i = false;
                             }
-                        }
-                        catch(NumberFormatException e){
+                        } catch (NumberFormatException e) {
                             System.out.println("La opcion ingresada no es valida.");
-                        } 
+                        }
                     }
 
 
@@ -478,48 +471,138 @@ public class Administrador extends Persona {
                     break;
                 case 5:
                     listarProyectos();
-                    while(i){
+                    while (i) {
                         System.out.println("Ingrese el id del proyecto al que desea eliminarle una tarea:");
-                        try{
+                        try {
                             opc = scanner.nextInt();
-                            if(gestorProyectos.buscarProyectoPorId(opc) != null){
+                            if (gestorProyectos.buscarProyectoPorId(opc) != null) {
                                 eliminarTareaDeUnPoryecto(opc);
                                 i = false;
                             }
-                        }
-                        catch(NumberFormatException e){
+                        } catch (NumberFormatException e) {
                             System.out.println("La opcion ingresada no es valida.");
-                        } 
+                        }
                     }
 
                     break;
                 case 6:
-                    
-                    while(i){
+
+                    while (i) {
                         listarProyectos();
                         System.out.println("Ingrese el id del proyecto al que desea listar sus tarea:");
-                        try{
+                        try {
                             opc = scanner.nextInt();
-                            if(gestorProyectos.buscarProyectoPorId(opc) != null){
-                                
+                            if (gestorProyectos.buscarProyectoPorId(opc) != null) {
+
                                 gestorProyectos.listarTareasProyecto(opc);
-                                
+
                                 i = false;
                             }
-                        }
-                        catch(NumberFormatException e){
+                        } catch (NumberFormatException e) {
                             System.out.println("La opcion ingresada no es valida.");
-                        } 
-                    }  
+                        }
+                    }
 
                     break;
                 case 7:
-                    
-                    
+
+
+
+                    boolean tareaValida = false;
+                    int idTarea = 0;
+
+                    while (!tareaValida) {
+                        try {
+                            gestorTareas.listarTareas();
+                            System.out.println("Ingrese el ID de la tarea:");
+                            idTarea = scanner.nextInt();
+                            scanner.nextLine();
+                            if (gestorTareas.buscarTareaPorId(idTarea) != null) {
+                                tareaValida = true;
+                            } else {
+                                System.out.println("No se encontró la tarea con ID: " + idTarea + ". Intente nuevamente.");
+                            }
+                        } catch (NumberFormatException | InputMismatchException e) {
+                            System.out.println("La opción ingresada no es válida. Por favor, ingrese un número.");
+                            scanner.nextLine();
+                        }
+                    }
+
+                    boolean usuarioValido = false;
+                    int idUsuario = 0;
+
+                    while (!usuarioValido) {
+                        try {
+                            gestorUsuarios.listarUsuarios();
+                            System.out.println("Ingrese el ID del usuario a agregar:");
+                            idUsuario = scanner.nextInt();
+                            scanner.nextLine();
+
+                            if (gestorUsuarios.buscarUsuarioPorId(idUsuario) != null) {
+                                usuarioValido = true;
+                            } else {
+                                System.out.println("No se encontró el usuario con ID: " + idUsuario + ". Intente nuevamente.");
+                            }
+                        } catch (NumberFormatException | InputMismatchException e) {
+                            System.out.println("La opción ingresada no es válida. Por favor, ingrese un número.");
+                            scanner.nextLine(); // Limpiar buffer del scanner
+                        }
+                    }
+
+
+                    agregarUsuarioATarea(idTarea, idUsuario);
+                    gestorUsuarios.listarUsuariosDeUnaTarea(idTarea);
+
 
                     break;
                 case 8:
-                    eliminarUsuarioDeTarea();
+
+                    boolean tareaValida2 = false;
+                    int idTarea2 = 0;
+
+                    while (!tareaValida2) {
+                        try {
+                            gestorTareas.listarTareas();
+                            System.out.println("Ingrese el ID de la tarea:");
+                            idTarea2 = scanner.nextInt();
+                            scanner.nextLine();
+
+                            if (gestorTareas.buscarTareaPorId(idTarea2) != null) {
+                                tareaValida2 = true;
+                            } else {
+                                System.out.println("No se encontró la tarea con ID: " + idTarea2 + ". Intente nuevamente.");
+                            }
+                        } catch (InputMismatchException e) {
+                            System.out.println("La opción ingresada no es válida. Por favor, ingrese un número.");
+                            scanner.nextLine();
+                        }
+                    }
+
+                    boolean usuarioValido2 = false;
+                    int idUsuario2 = 0;
+                    gestorUsuarios.listarUsuariosDeUnaTarea(idTarea2);
+                    while (!usuarioValido2) {
+                        try {
+                            gestorUsuarios.listarUsuarios();
+                            System.out.println("Ingrese el ID del usuario a agregar:");
+                            idUsuario2 = scanner.nextInt();
+                            scanner.nextLine();
+
+                            if (gestorUsuarios.buscarUsuarioPorId(idUsuario2) != null) {
+                                usuarioValido2 = true;
+                            } else {
+                                System.out.println("No se encontró el usuario con ID: " + idUsuario2 + ". Intente nuevamente.");
+                            }
+                        } catch (InputMismatchException e) {
+                            System.out.println("La opción ingresada no es válida. Por favor, ingrese un número.");
+                            scanner.nextLine();
+                        }
+                    }
+
+
+                    eliminarUsuarioDeTarea(idTarea2, idUsuario2);
+                    gestorUsuarios.listarUsuariosDeUnaTarea(idTarea2);
+
                     break;
                 case 9:
                     System.out.println("Volviendo al menú principal...");
@@ -530,20 +613,20 @@ public class Administrador extends Persona {
         } while (opcion != 9);
     }
 
-    public void eliminarTareaDeUnPoryecto(int idProyecto){
+    public void eliminarTareaDeUnPoryecto(int idProyecto) {
         GestorProyectos gestorProyectos = GestorProyectos.getInstance();
-             
-            System.out.println(gestorProyectos.mostrarTareasDelProyecto(idProyecto));
-            System.out.println("Ingrese el ID de la tarea que desea eliminar del proyecto:");
-            int opc = scanner.nextInt();
 
-            gestorProyectos.eliminarTareaDeProyecto(idProyecto, opc);
+        System.out.println(gestorProyectos.mostrarTareasDelProyecto(idProyecto));
+        System.out.println("Ingrese el ID de la tarea que desea eliminar del proyecto:");
+        int opc = scanner.nextInt();
 
-            System.out.println("\n" + "Tareas restantes en el proyecto:");
-            System.out.println("---------------------------------------------------------------------");
-            System.out.println(gestorProyectos.mostrarTareasDelProyecto(idProyecto));
-            System.out.println("\n" + "---------------------------------------------------------------------");
-        }
+        gestorProyectos.eliminarTareaDeProyecto(idProyecto, opc);
+
+        System.out.println("\n" + "Tareas restantes en el proyecto:");
+        System.out.println("---------------------------------------------------------------------");
+        System.out.println(gestorProyectos.mostrarTareasDelProyecto(idProyecto));
+        System.out.println("\n" + "---------------------------------------------------------------------");
+    }
 
     public String agregarTareaAProyecto(int idProyecto) {
         GestorProyectos gestorProyectos = GestorProyectos.getInstance();
@@ -568,7 +651,7 @@ public class Administrador extends Persona {
         GestorUsuarios.getInstance().listarUsuariosInactivos();
     }
 
-    public void menuListadoDeTareas(){
+    public void menuListadoDeTareas() {
         System.out.println("1. Por hacer" + "\n" + "2. En progreso" + "\n" + "3. Completadas" + "\n" + "4. Todas");
         System.out.println("Seleccione la opcion deseada: ");
     }
