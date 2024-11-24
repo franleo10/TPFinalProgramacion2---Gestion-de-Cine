@@ -125,5 +125,15 @@ public class GestorTareas {
 
         }
     }
+    public void mostrarTareaPorId(int id) {
+        if (tareas.containsKey(id)) {
+            Tarea tarea = tareas.get(id);
+            System.out.println(tarea);
+        } else {
+            System.out.println("No se encontró ninguna tarea con el ID: " + id);
+        }
+    }
+
+
 
 }

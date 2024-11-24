@@ -44,76 +44,211 @@ public class Administrador extends Persona {
     }
 
     public void agregarProyecto() {
-
         GestorProyectos gestorProyectos = GestorProyectos.getInstance();
 
-        System.out.println("Ingrese el nombre del proyecto.");
+        System.out.println("Ingrese el nombre del proyecto:");
         String nombre = scanner.nextLine();
 
-        while (nombre == null) {
-
-            System.out.println("Debe indicar un nombre para el proyecto.");
+        // Validar que el nombre no esté vacío o sea nulo
+        while (nombre == null || nombre.trim().isEmpty()) {
+            System.out.println("Debe indicar un nombre válido para el proyecto.");
             nombre = scanner.nextLine();
-
-            if (nombre != null) {
-                Proyecto proyectoNuevo = new Proyecto(nombre);
-                gestorProyectos.AgregarProyectoNuevo(proyectoNuevo);
-            }
-
         }
 
+        // Crear el proyecto y agregarlo al gestor
+        Proyecto proyectoNuevo = new Proyecto(nombre);
+        gestorProyectos.agregarProyecto(proyectoNuevo); // Usar el método correcto
     }
 
     public void modificarUsuario() {
+       GestorUsuarios gestorUsuarios=GestorUsuarios.getInstance();
         System.out.println("Ingrese el ID del usuario a modificar:");
         int id = scanner.nextInt();
-        scanner.nextLine(); // Consumir salto de línea
+        scanner.nextLine();
 
-        System.out.println("Ingrese el nuevo nombre del usuario:");
-        String nuevoNombre = scanner.nextLine();
 
-        System.out.println("Ingrese el nuevo rol del usuario:");
-        String nuevoRol = scanner.nextLine();
+        Usuario usuario = gestorUsuarios.buscarUsuarioPorId(id);
 
-        System.out.println("¿El usuario está activo? (true/false):");
-        boolean activo = scanner.nextBoolean();
-
-        GestorUsuarios gestor = GestorUsuarios.getInstance();
-        boolean resultado = gestor.modificarUsuario(id, nuevoNombre, nuevoRol, activo);
-
-        if (resultado) {
-            System.out.println("El usuario se modificó correctamente.");
-        } else {
-            System.out.println("No se pudo modificar el usuario.");
+        if (usuario == null) {
+            System.out.println("No se encontró un usuario con el ID " + id + ".");
+            return;
         }
+
+        boolean salir = false;
+        while (!salir) {
+            System.out.println("\nSeleccione el campo que desea modificar:");
+            System.out.println("1. Nombre");
+            System.out.println("2. Rol");
+            System.out.println("3. Estado (activo/inactivo)");
+            System.out.println("4. Salir");
+            System.out.print("Opción: ");
+
+            int opcion = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (opcion) {
+                case 1:
+                    System.out.println("Ingrese el nuevo nombre del usuario:");
+                    String nuevoNombre = scanner.nextLine();
+                    usuario.setNombre(nuevoNombre);
+                    System.out.println("El nombre se modificó correctamente.");
+                    break;
+
+                case 2:
+                    System.out.println("Ingrese el nuevo rol del usuario:");
+                    String puesto = scanner.nextLine();
+                    usuario.setPuesto(puesto);
+                    System.out.println("El rol se modificó correctamente.");
+                    break;
+
+                case 3:
+                    System.out.println("¿El usuario está activo? (true/false):");
+                    boolean activo = scanner.nextBoolean();
+                    usuario.setActivo(activo);
+                    System.out.println("El estado se modificó correctamente.");
+                    break;
+
+                case 4:
+                    System.out.println("Saliendo del menú de modificación.");
+                    salir = true;
+                    break;
+
+                default:
+                    System.out.println("Opción no válida. Intente nuevamente.");
+            }
+        }
+
+    gestorUsuarios.ListarUnUsuario(id);
+
     }
 
     public void modificarTarea() {
+        GestorTareas gestor = GestorTareas.getInstance();
+        GestorUsuarios gestorUsuarios=GestorUsuarios.getInstance();
+
         System.out.println("Ingrese el ID de la tarea a modificar:");
         int id = scanner.nextInt();
         scanner.nextLine(); // Consumir salto de línea
 
-        System.out.println("Ingrese el nuevo título de la tarea:");
-        String nuevoTitulo = scanner.nextLine();
+        // Verificar si la tarea existe
+        Tarea tarea = gestor.buscarTareaPorId(id);
+        if (tarea == null) {
+            System.out.println("No se encontró ninguna tarea con el ID proporcionado.");
+            return;
+        }
 
-        System.out.println("Ingrese la nueva descripción de la tarea:");
-        String nuevaDescripcion = scanner.nextLine();
+        boolean continuar = true;
+        while (continuar) {
+            System.out.println("\nSeleccione qué desea modificar:");
+            System.out.println("1. Título");
+            System.out.println("2. Descripción");
+            System.out.println("3. Prioridad");
+            System.out.println("4. Estado");
+            System.out.println("5. Salir");
+            System.out.print("Opción: ");
 
-        System.out.println("Ingrese la nueva prioridad (BAJA, MEDIA, ALTA):");
-        String prioridad = scanner.nextLine();
-        Prioridad nuevaPrioridad = Prioridad.valueOf(prioridad.toUpperCase());
+            int opcion = scanner.nextInt();
+            scanner.nextLine(); // Consumir salto de línea
 
-        System.out.println("Ingrese el nuevo estado (PENDIENTE, EN_PROGRESO, COMPLETADA):");
-        String estado = scanner.nextLine();
-        Estado nuevoEstado = Estado.valueOf(estado.toUpperCase());
+            switch (opcion) {
+                case 1:
+                    System.out.println("Ingrese el nuevo título de la tarea:");
+                    String nuevoTitulo = scanner.nextLine();
+                    tarea.setTitulo(nuevoTitulo);
+                    System.out.println("Título actualizado correctamente.");
+                    break;
 
-        GestorTareas gestor = GestorTareas.getInstance();
-        boolean resultado = gestor.modificarTarea(id, nuevoTitulo, nuevaDescripcion, nuevaPrioridad, nuevoEstado);
+                case 2:
+                    System.out.println("Ingrese la nueva descripción de la tarea:");
+                    String nuevaDescripcion = scanner.nextLine();
+                    tarea.setDescripcion(nuevaDescripcion);
+                    System.out.println("Descripción actualizada correctamente.");
+                    break;
 
+                case 3:
+                    // Manejo de prioridad
+                    Prioridad nuevaPrioridad = null;
+                    while (nuevaPrioridad == null) {
+                        System.out.println("Ingrese la prioridad (1.ALTA, 2.MEDIA, 3.BAJA):");
+                        if (scanner.hasNextInt()) { // Verificar si la entrada es un número
+                            int resul = scanner.nextInt();
+                            scanner.nextLine(); // Limpiar el buffer de entrada
+
+                            switch (resul) {
+                                case 1:
+                                    nuevaPrioridad = Prioridad.Alta;
+                                    break;
+                                case 2:
+                                    nuevaPrioridad = Prioridad.Media;
+                                    break;
+                                case 3:
+                                    nuevaPrioridad = Prioridad.Baja;
+                                    break;
+                                default:
+                                    System.out.println("Opción inválida. Intente nuevamente.");
+                                    break;
+                            }
+                        } else {
+                            // Si no es un número, mostrar mensaje y limpiar el buffer
+                            System.out.println("Entrada inválida. Por favor ingrese un número.");
+                            scanner.nextLine(); // Limpiar buffer de entrada
+                        }
+                    }
+                    tarea.setPrioridad(nuevaPrioridad);
+                    System.out.println("Prioridad actualizada correctamente.");
+                    break;
+
+                case 4:
+                    // Manejo de estado
+                    Estado nuevoEstado = null;
+                    while (nuevoEstado == null) {
+                        System.out.println("Ingrese el estado (1.PENDIENTE, 2.PROGRESO, 3.FINALIZADA):");
+                        if (scanner.hasNextInt()) { // Verificar si la entrada es un número
+                            int resul = scanner.nextInt();
+                            scanner.nextLine(); // Limpiar el buffer de entrada
+
+                            switch (resul) {
+                                case 1:
+                                    nuevoEstado = Estado.Pendiente;
+                                    break;
+                                case 2:
+                                    nuevoEstado = Estado.Proceso;
+                                    break;
+                                case 3:
+                                    nuevoEstado = Estado.Finalizado;
+                                    break;
+                                default:
+                                    System.out.println("Opción inválida. Intente nuevamente.");
+                                    break;
+                            }
+                        } else {
+                            // Si no es un número, mostrar mensaje y limpiar el buffer
+                            System.out.println("Entrada inválida. Por favor ingrese un número.");
+                            scanner.nextLine(); // Limpiar buffer de entrada
+                        }
+                    }
+                    tarea.setEstado(nuevoEstado);
+                    System.out.println("Estado actualizado correctamente.");
+                    break;
+
+                case 5:
+                    continuar = false;
+                    System.out.println("Modificación de tarea finalizada.");
+                    break;
+
+                default:
+                    System.out.println("Opción no válida. Intente nuevamente.");
+            }
+        }
+
+        // Guardar los cambios en el gestor
+        boolean resultado = gestor.modificarTarea(id, tarea.getTitulo(), tarea.getDescripcion(), tarea.getPrioridad(), tarea.getEstado());
         if (resultado) {
-            System.out.println("La tarea se modificó correctamente.");
+            System.out.println("Cambios guardados correctamente en el sistema.");
+            gestor.mostrarTareaPorId(id);
+
         } else {
-            System.out.println("No se pudo modificar la tarea.");
+            System.out.println("No se pudo guardar los cambios en el sistema.");
         }
     }
 
@@ -434,7 +569,9 @@ public class Administrador extends Persona {
             System.out.println("6. Listar tareas");
             System.out.println("7. Asignar usuario a tarea");
             System.out.println("8. Eliminar usuario de tarea");
-            System.out.println("9. Volver al menú principal");
+            System.out.println("9. Modificar tarea");
+            System.out.println("10. Modificar usuario");
+            System.out.println("11. Volver al menú principal");
             System.out.print("Seleccione una opción: ");
             opcion = scanner.nextInt();
             scanner.nextLine(); // Limpiar buffer
@@ -605,7 +742,13 @@ public class Administrador extends Persona {
 
                     break;
                 case 9:
-                    System.out.println("Volviendo al menú principal...");
+                    modificarTarea();
+                    break;
+                case 10:
+                    modificarUsuario();
+                    break;
+                case 11:
+                    System.out.println("Volviendo al menu principal...");
                     break;
                 default:
                     System.out.println("Opción no válida.");
