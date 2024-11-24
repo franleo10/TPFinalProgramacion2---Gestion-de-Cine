@@ -140,6 +140,17 @@ public class GestorUsuarios {
         System.out.println("Usuario modificado exitosamente.");
         return true;
     }
+    public void ListarUnUsuario(int idUsuario){
+        for (Usuario usuario : usuarios) {
+            if(usuario.getId() == idUsuario){
+                System.out.println("\n" + "Nombre: " + usuario.getNombre());
+                System.out.println("Puesto: " + usuario.getPuesto());
+                System.out.println("IdUsuario: " + usuario.getId() + "\n");
+            }
+        }
+
+    }
+
 
     public void listarUsuariosDeUnaTarea(int idTarea) {
         GestorTareas gestorTareas = GestorTareas.getInstance();
