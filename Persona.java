@@ -6,11 +6,12 @@ public abstract class Persona {
     private String nombre;
     private static int contador = 1;
     private boolean activo;
+    private String contrasenia;
 
-    public Persona(String nombre) {
+    public Persona(String nombre, String contrasenia) {
        this.id=contador++;
         this.nombre = nombre;
-        this.activo=true;
+        this.contrasenia = contrasenia;
     }
 
     public String getNombre() {

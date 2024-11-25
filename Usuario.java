@@ -4,8 +4,8 @@ public class Usuario extends Persona {
     private String Puesto;
     private boolean activo;
 
-    public Usuario(String nombre,  String puesto) {
-        super(nombre);
+    public Usuario(String nombre,  String puesto, String contrasenia) {
+        super(nombre, contrasenia);
         Puesto = puesto;
         activo = true;
         GestorUsuarios gestor = GestorUsuarios.getInstance();
@@ -27,9 +27,6 @@ public class Usuario extends Persona {
     public boolean getActivo(){
         return activo;
     }
-
-    
-
 
     @Override
 public String toString() {

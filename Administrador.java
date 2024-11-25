@@ -8,8 +8,8 @@ public class Administrador extends Persona {
 
     private Scanner scanner = new Scanner(System.in);
 
-    public Administrador(String nombre, String rol) {
-        super(nombre);
+    public Administrador(String nombre, String rol, String contrasenia) {
+        super(nombre, contrasenia);
     }
 
     public void CompletarTarea(Tarea tarea) {
@@ -17,8 +17,7 @@ public class Administrador extends Persona {
         System.out.println("Tarea finalizada con exito...");
     }
 
-    public void EliminarUsuarioDeTarea(Usuario usuario, Tarea tarea) { /// PARA VERIFICAR SI EXISTE LA TAREA TENGO QUE
-    /// VERIFICARLO EN LA COLUMNA PRIMERO
+    public void EliminarUsuarioDeTarea(Usuario usuario, Tarea tarea) {
 
         try {
             tarea.VerificarUsuario(usuario);
@@ -257,8 +256,10 @@ public class Administrador extends Persona {
         String nombre = scanner.nextLine();
         System.out.println("Ingrese el rol del usuario:");
         String rol = scanner.nextLine();
+        System.out.println("Ingrese su contrasenia");
+        String contrasenia = scanner.nextLine();
 
-        Usuario usuario = new Usuario(nombre, rol);
+        Usuario usuario = new Usuario(nombre, rol, contrasenia);
         System.out.println(usuario);
     }
 
