@@ -9,10 +9,10 @@ public class Main {
     public static void main(String[] args) {
 
         // Crear usuarios
-        Usuario usuario1 = new Usuario("Juan", "Usuario", "asbfjkhsa2");
-        Usuario usuario2 = new Usuario("Ana", "Usuario", "aksdnfajkhs");
-        Usuario usuario3 = new Usuario("Pedro", "Usuario", "sadkfjn");
-        Usuario usuario4 = new Usuario("Gian", "Usuario", "asdnfkajsn");
+        Usuario usuario1 = new Usuario("Juan", "Usuario");
+        Usuario usuario2 = new Usuario("Ana", "Usuario");
+        Usuario usuario3 = new Usuario("Pedro", "Usuario");
+        Usuario usuario4 = new Usuario("Gian", "Usuario");
 
         // Crear algunas tareas
         Tarea tarea1 = new Tarea("Tarea 1", "Descripción de la tarea 1", Prioridad.Alta, Estado.Pendiente);
@@ -31,7 +31,7 @@ public class Main {
         proyecto.agregarTareaNuevaAlProyecto(tarea2);
 
         // Crear administrador
-        Administrador admin = new Administrador("Admin", "ADMIN", "kasjnf21");
+        Administrador admin = new Administrador("Admin", "ADMIN");
 
         GestorProyectos gestorProyectos = GestorProyectos.getInstance();
 
